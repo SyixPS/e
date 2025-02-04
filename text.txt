@@ -1,1 +1,273 @@
-e
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Apple-Style</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">
+            <h2 class="animated-text">Welcome to My Portfolio</h2>
+            <p class="subtext">Tap to Begin</p>
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-brand">Portfolio</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#projects">Work</a></li>
+            <li><a href="#skills">Skills</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title animated-text">Innovative<br>Digital Solutions</h1>
+            <p class="hero-description">Creating experiences that matter</p>
+            <div class="scroll-indicator"></div>
+        </div>
+        <div class="floating-mockup"></div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="section-container">
+            <h2 class="section-title animated-text">Featured Work</h2>
+            <div class="project-grid"></div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="section-container">
+            <h2 class="section-title animated-text">Technical Expertise</h2>
+            <div class="skill-grid"></div>
+        </div>
+    </section>
+
+    <!-- Project Details Modal -->
+    <div id="project-modal" class="modal project-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title"></h2>
+            <div class="project-details">
+                <p class="modal-tech"></p>
+                <p class="modal-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill Details Modal -->
+    <div id="skill-modal" class="modal skill-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Skill Details</h2>
+            <div class="skill-progress">
+                <div class="progress-bar">
+                    <div id="progress-level" class="progress-level"></div>
+                </div>
+                <p id="progress-text"> <span id="skill-level"></span></p>
+            </div>
+            <p id="hours-spent">Hours Spent:</p>
+            <span id="skill-hours">0</span>
+            
+        </div>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html> and js  // Projects Data
+const projects = [
+    { title: "Enterprise Platform", tech: "SwiftUI · CloudKit", description: "A full-stack enterprise solution with real-time synchronization across Apple devices." },
+    { title: "AI Interface", tech: "TensorFlow · CoreML", description: "An AI-powered interface for natural language processing and image recognition." },
+    { title: "AR Experience", tech: "ARKit · Reality Composer", description: "An immersive AR experience for interactive storytelling." }
+];
+
+// Skills Data
+const skills = [
+    { icon: 'fa-apple', name: 'Apple Ecosystem', level: 85, hours: 1200 },
+    { icon: 'fa-swift', name: 'Swift Development', level: 90, hours: 1500 },
+    { icon: 'fa-react', name: 'React Native', level: 75, hours: 800 },
+    { icon: 'fa-unity', name: 'AR/VR Development', level: 70, hours: 600 }
+];
+
+// Load Projects
+function loadProjects() {
+    const projectGrid = document.querySelector('.project-grid');
+    projects.forEach(project => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.innerHTML = `
+            <h3>${project.title}</h3>
+            <p class="tech-stack">${project.tech}</p>
+        `;
+        card.addEventListener('click', () => openProjectModal(project));
+        projectGrid.appendChild(card);
+    });
+}
+
+// Load Skills
+function loadSkills() {
+    const skillGrid = document.querySelector('.skill-grid');
+    skills.forEach(skill => {
+        const item = document.createElement('div');
+        item.className = 'skill-item';
+        item.innerHTML = `
+            <i class="fab ${skill.icon}"></i>
+            <h4>${skill.name}</h4>
+        `;
+        item.addEventListener('click', () => openSkillModal(skill));
+        skillGrid.appendChild(item);
+    });
+}
+
+// Open Project Modal
+function openProjectModal(project) {
+    const modal = document.getElementById('project-modal');
+    modal.querySelector('.modal-title').textContent = project.title;
+    modal.querySelector('.modal-tech').textContent = project.tech;
+    modal.querySelector('.modal-description').textContent = project.description;
+    modal.style.display = 'flex';
+}
+
+function openSkillModal(skill) {
+    const modal = document.getElementById('skill-modal');
+    const progressLevel = modal.querySelector('#progress-level');
+    const skillHours = modal.querySelector('#skill-hours');
+
+    // Reset progress bar
+    progressLevel.style.width = '0%';
+    void progressLevel.offsetWidth; // Force reflow
+
+    // Reset hours to 0 before animating
+    skillHours.textContent = '0';
+
+    // Set modal content
+    modal.querySelector('#modal-title').textContent = skill.name;
+    modal.querySelector('#skill-level').textContent = skill.level;
+
+    // Animate progress bar
+    setTimeout(() => {
+        progressLevel.style.width = `${skill.level}%`;
+    }, 10);
+
+    // Animate hours count-up
+    setTimeout(() => {
+        animateHours(skillHours, skill.hours, 1500); // 1.5s animation
+    }, 100);
+
+    // Show modal
+    modal.style.display = 'flex';
+}
+
+// Function to animate hours count-up
+function animateHours(target, finalValue, duration) {
+    let start = 0;
+    let current = start;
+    let increment = Math.ceil(finalValue / (duration / 20));
+    
+    clearInterval(target.countInterval); // Clear previous animation
+    target.countInterval = setInterval(() => {
+        current += increment;
+        if (current >= finalValue) {
+            current = finalValue;
+            clearInterval(target.countInterval);
+        }
+        target.textContent = current;
+    }, 20);
+}
+
+
+// Close Modals
+document.querySelectorAll('.modal .close').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.closest('.modal').style.display = 'none';
+    });
+});
+
+// Smooth Scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+
+// Tilt Effect for Cards
+function addTiltEffect(cards) {
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `perspective(1000px) rotateX(${y * 10}deg) rotateY(${x * 10}deg) scale(1.05)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+        });
+    });
+}
+
+// Initialize Page
+function initializePage() {
+    loadProjects();
+    loadSkills();
+
+    const projectCards = document.querySelectorAll('.project-card');
+    const skillItems = document.querySelectorAll('.skill-item');
+    addTiltEffect([...projectCards, ...skillItems]);
+
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 600 } },
+            color: { value: "#ffffff" },
+            opacity: { value: 0.7, random: true },
+            size: { value: 2.5, random: true },
+            move: {
+                enable: true,
+                speed: 2.5,
+                direction: "none",
+                random: false,
+                out_mode: "out",
+                attract: { enable: true, rotateX: 800, rotateY: 1600 }
+            }
+        },
+        interactivity: {
+            detect_on: "canvas",
+            events: {
+                onhover: { enable: true, mode: "repulse" },
+                onclick: { enable: true, mode: "push" },
+                resize: true
+            }
+        }
+    });
+}
+
+// Loading Screen Handler
+document.getElementById('loader').addEventListener('click', () => {
+    const loader = document.getElementById('loader');
+    loader.style.opacity = '0';
+    setTimeout(() => {
+        loader.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        document.getElementById('particles-js').style.opacity = '1';
+        initializePage();
+    }, 800);
+});
