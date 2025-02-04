@@ -8,7 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Particle background -->
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">
+            <h2 class="animated-text">Creative Developer</h2>
+            <p class="subtext">Click to Explore</p>
+        </div>
+    </div>
+
+    <!-- Particle Background -->
     <div id="particles-js"></div>
 
     <!-- Navigation -->
@@ -24,7 +32,7 @@
     <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1 class="hero-title">Innovative<br>Digital Solutions</h1>
+            <h1 class="hero-title animated-text">Innovative<br>Digital Solutions</h1>
             <p class="hero-description">Creating experiences that matter</p>
             <div class="scroll-indicator"></div>
         </div>
@@ -34,22 +42,46 @@
     <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="section-container">
-            <h2 class="section-title">Featured Work</h2>
-            <div class="project-grid">
-                <!-- Project cards loaded dynamically -->
-            </div>
+            <h2 class="section-title animated-text">Featured Work</h2>
+            <div class="project-grid"></div>
         </div>
     </section>
 
     <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="section-container">
-            <h2 class="section-title">Technical Expertise</h2>
-            <div class="skill-grid">
-                <!-- Skill items loaded dynamically -->
-            </div>
+            <h2 class="section-title animated-text">Technical Expertise</h2>
+            <div class="skill-grid"></div>
         </div>
     </section>
+
+    <!-- Project Details Modal -->
+    <div id="project-modal" class="modal project-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title"></h2>
+            <div class="project-details">
+                <p class="modal-tech"></p>
+                <p class="modal-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skill Details Modal -->
+    <div id="skill-modal" class="modal skill-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Skill Details</h2>
+            <div class="skill-progress">
+                <div class="progress-bar">
+                    <div id="progress-level" class="progress-level"></div>
+                </div>
+                <p id="progress-text"> <span id="skill-level"></span></p>
+            </div>
+            <p id="hours-spent">Hours Spent:</p>
+            <span id="skill-hours">0</span>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="app.js"></script>
