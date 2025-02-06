@@ -1,273 +1,431 @@
-<!DOCTYPE html>
-<html lang="en">
+something is missing thats breaking everything here is the old code : <!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Apple-Style</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-    <!-- Loading Screen -->
-    <div id="loader">
-        <div class="loader-content">
-            <h2 class="animated-text">Welcome to My Portfolio</h2>
-            <p class="subtext">Tap to Begin</p>
-            <div class="spinner"></div>
-        </div>
-    </div>
-
-    <!-- Particle Background -->
-    <div id="particles-js"></div>
-
-    <!-- Navigation -->
-    <nav class="glass-nav">
-        <div class="nav-brand">Portfolio</div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#projects">Work</a></li>
-            <li><a href="#skills">Skills</a></li>
-        </ul>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title animated-text">Innovative<br>Digital Solutions</h1>
-            <p class="hero-description">Creating experiences that matter</p>
-            <div class="scroll-indicator"></div>
-        </div>
-        <div class="floating-mockup"></div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="section-container">
-            <h2 class="section-title animated-text">Featured Work</h2>
-            <div class="project-grid"></div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="section-container">
-            <h2 class="section-title animated-text">Technical Expertise</h2>
-            <div class="skill-grid"></div>
-        </div>
-    </section>
-
-    <!-- Project Details Modal -->
-    <div id="project-modal" class="modal project-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 class="modal-title"></h2>
-            <div class="project-details">
-                <p class="modal-tech"></p>
-                <p class="modal-description"></p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Skill Details Modal -->
-    <div id="skill-modal" class="modal skill-modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="modal-title">Skill Details</h2>
-            <div class="skill-progress">
-                <div class="progress-bar">
-                    <div id="progress-level" class="progress-level"></div>
-                </div>
-                <p id="progress-text"> <span id="skill-level"></span></p>
-            </div>
-            <p id="hours-spent">Hours Spent:</p>
-            <span id="skill-hours">0</span>
-            
-        </div>
-    </div>
-
-    
-
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="app.js"></script>
-</body>
-</html> and js  // Projects Data
-const projects = [
-    { title: "Enterprise Platform", tech: "SwiftUI · CloudKit", description: "A full-stack enterprise solution with real-time synchronization across Apple devices." },
-    { title: "AI Interface", tech: "TensorFlow · CoreML", description: "An AI-powered interface for natural language processing and image recognition." },
-    { title: "AR Experience", tech: "ARKit · Reality Composer", description: "An immersive AR experience for interactive storytelling." }
-];
-
-// Skills Data
-const skills = [
-    { icon: 'fa-apple', name: 'Apple Ecosystem', level: 85, hours: 1200 },
-    { icon: 'fa-swift', name: 'Swift Development', level: 90, hours: 1500 },
-    { icon: 'fa-react', name: 'React Native', level: 75, hours: 800 },
-    { icon: 'fa-unity', name: 'AR/VR Development', level: 70, hours: 600 }
-];
-
-// Load Projects
-function loadProjects() {
-    const projectGrid = document.querySelector('.project-grid');
-    projects.forEach(project => {
-        const card = document.createElement('div');
-        card.className = 'project-card';
-        card.innerHTML = `
-            <h3>${project.title}</h3>
-            <p class="tech-stack">${project.tech}</p>
-        `;
-        card.addEventListener('click', () => openProjectModal(project));
-        projectGrid.appendChild(card);
-    });
-}
-
-// Load Skills
-function loadSkills() {
-    const skillGrid = document.querySelector('.skill-grid');
-    skills.forEach(skill => {
-        const item = document.createElement('div');
-        item.className = 'skill-item';
-        item.innerHTML = `
-            <i class="fab ${skill.icon}"></i>
-            <h4>${skill.name}</h4>
-        `;
-        item.addEventListener('click', () => openSkillModal(skill));
-        skillGrid.appendChild(item);
-    });
-}
-
-// Open Project Modal
-function openProjectModal(project) {
-    const modal = document.getElementById('project-modal');
-    modal.querySelector('.modal-title').textContent = project.title;
-    modal.querySelector('.modal-tech').textContent = project.tech;
-    modal.querySelector('.modal-description').textContent = project.description;
-    modal.style.display = 'flex';
-}
-
-function openSkillModal(skill) {
-    const modal = document.getElementById('skill-modal');
-    const progressLevel = modal.querySelector('#progress-level');
-    const skillHours = modal.querySelector('#skill-hours');
-
-    // Reset progress bar
-    progressLevel.style.width = '0%';
-    void progressLevel.offsetWidth; // Force reflow
-
-    // Reset hours to 0 before animating
-    skillHours.textContent = '0';
-
-    // Set modal content
-    modal.querySelector('#modal-title').textContent = skill.name;
-    modal.querySelector('#skill-level').textContent = skill.level;
-
-    // Animate progress bar
-    setTimeout(() => {
-        progressLevel.style.width = `${skill.level}%`;
-    }, 10);
-
-    // Animate hours count-up
-    setTimeout(() => {
-        animateHours(skillHours, skill.hours, 1500); // 1.5s animation
-    }, 100);
-
-    // Show modal
-    modal.style.display = 'flex';
-}
-
-// Function to animate hours count-up
-function animateHours(target, finalValue, duration) {
-    let start = 0;
-    let current = start;
-    let increment = Math.ceil(finalValue / (duration / 20));
-    
-    clearInterval(target.countInterval); // Clear previous animation
-    target.countInterval = setInterval(() => {
-        current += increment;
-        if (current >= finalValue) {
-            current = finalValue;
-            clearInterval(target.countInterval);
+    <title>Cathedral Harmonic Storm</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #0a0609;
+            font-family: 'UnifrakturMaguntia', cursive;
+            color: #b0946e;
         }
-        target.textContent = current;
-    }, 20);
-}
-
-
-// Close Modals
-document.querySelectorAll('.modal .close').forEach(btn => {
-    btn.addEventListener('click', () => {
-        btn.closest('.modal').style.display = 'none';
-    });
-});
-
-// Smooth Scroll
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
-
-// Tilt Effect for Cards
-function addTiltEffect(cards) {
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-            card.style.transform = `perspective(1000px) rotateX(${y * 10}deg) rotateY(${x * 10}deg) scale(1.05)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-        });
-    });
-}
-
-// Initialize Page
-function initializePage() {
-    loadProjects();
-    loadSkills();
-
-    const projectCards = document.querySelectorAll('.project-card');
-    const skillItems = document.querySelectorAll('.skill-item');
-    addTiltEffect([...projectCards, ...skillItems]);
-
-    particlesJS('particles-js', {
-        particles: {
-            number: { value: 80, density: { enable: true, value_area: 600 } },
-            color: { value: "#ffffff" },
-            opacity: { value: 0.7, random: true },
-            size: { value: 2.5, random: true },
-            move: {
-                enable: true,
-                speed: 2.5,
-                direction: "none",
-                random: false,
-                out_mode: "out",
-                attract: { enable: true, rotateX: 800, rotateY: 1600 }
-            }
-        },
-        interactivity: {
-            detect_on: "canvas",
-            events: {
-                onhover: { enable: true, mode: "repulse" },
-                onclick: { enable: true, mode: "push" },
-                resize: true
-            }
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #3a2525;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 300px;
         }
-    });
-}
-
-// Loading Screen Handler
-document.getElementById('loader').addEventListener('click', () => {
-    const loader = document.getElementById('loader');
-    loader.style.opacity = '0';
-    setTimeout(() => {
-        loader.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        document.getElementById('particles-js').style.opacity = '1';
-        initializePage();
-    }, 800);
-});
+        button {
+            padding: 8px 15px;
+            background: #2a1515;
+            border: 1px solid #5e2a2a;
+            color: #b0946e;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 2px;
+            flex: 1 1 auto;
+        }
+        button:hover {
+            background: #3a2525;
+        }
+        .keyboard {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2px;
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 10px;
+            z-index: 100;
+        }
+        .keyboard button {
+            min-width: 40px;
+            height: 100px;
+            position: relative;
+        }
+        .keyboard button.black {
+            background: #0a0505;
+            height: 60px;
+            margin: 0 -20px;
+            z-index: 2;
+        }
+        .keyboard button.active {
+            background: #3a2525 !important;
+        }
+        .key-label {
+            position: absolute;
+            bottom: 5px;
+            width: 100%;
+            text-align: center;
+            font-size: 0.8em;
+        }
+        .cathedral-overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: 
+                radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.9)),
+                linear-gradient(0deg, rgba(90,30,30,0.1) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 6px;
+        }
+    </style>
+      <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="controls">
+            <button onclick="changeHarmonicMode()">Harmonic: Sine</button>
+            <button onclick="toggleParticleMode()">Particles: Vortex</button>
+            <button onclick="toggleEcho()">Echo: On</button>
+            <button onclick="toggleChorus()">Chorus: Off</button>
+            <button onclick="toggleVisualizer()">Visualizer: On</button>
+            <button onclick="toggleGravity()">Gravity: Off</button>
+            <button onclick="toggleTrails()">Trails: On</button>
+            <button onclick="toggleParticleShapes()">Shapes: Circles</button>
+            <button onclick="toggleFrequencyResponse()">Freq Response: On</button>
+            <button onclick="toggleParticleCollisions()">Collisions: Off</button>
+            <button onclick="toggleParticleAttraction()">Attraction: Off</button>
+            <button onclick="clearAll()">Silence</button>
+        </div>
+        
+        <div class="keyboard" id="keyboard"></div>
+        
+        <div class="cathedral-overlay"></div>
+        <canvas id="canvas"></canvas>
+    
+        <script>
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            let audioContext, activeOscillators = new Map();
+            let particles = [];
+            let harmonicMode = 'sine';
+            let particleMode = 'vortex';
+            let echoEnabled = true;
+            let chorusEnabled = false;
+            let visualizerEnabled = true;
+            let gravityEnabled = false;
+            let trailsEnabled = true;
+            let particleShapes = 'circles';
+            let frequencyResponseEnabled = true;
+            let particleCollisionsEnabled = false;
+            let particleAttractionEnabled = false;
+            const NOTE_FREQS = {
+                'C': 65.41, 'C#': 69.30, 'D': 73.42, 'D#': 77.78,
+                'E': 82.41, 'F': 87.31, 'F#': 92.50, 'G': 98.00,
+                'G#': 103.83, 'A': 110.00, 'A#': 116.54, 'B': 123.47
+            };
+    
+            // Initialize keyboard
+            const keyboardKeys = [
+                {note: 'C', black: false}, {note: 'C#', black: true}, 
+                {note: 'D', black: false}, {note: 'D#', black: true},
+                {note: 'E', black: false}, {note: 'F', black: false},
+                {note: 'F#', black: true}, {note: 'G', black: false},
+                {note: 'G#', black: true}, {note: 'A', black: false},
+                {note: 'A#', black: true}, {note: 'B', black: false}
+            ];
+    
+            const keyboardElem = document.getElementById('keyboard');
+            keyboardKeys.forEach(keyData => {
+                const key = document.createElement('button');
+                key.className = `key${keyData.black ? ' black' : ''}`;
+                key.dataset.note = keyData.note;
+                const label = document.createElement('div');
+                label.className = 'key-label';
+                label.textContent = keyData.note;
+                key.appendChild(label);
+                
+                key.addEventListener('mousedown', () => {
+                    key.classList.add('active');
+                    playNote(keyData.note);
+                });
+                
+                key.addEventListener('mouseup', () => {
+                    key.classList.remove('active');
+                    stopNote(keyData.note);
+                });
+                
+                keyboardElem.appendChild(key);
+            });
+    
+            class Particle {
+                constructor(freq, hue) {
+                    this.x = canvas.width/2;
+                    this.y = canvas.height/2;
+                    this.angle = Math.random() * Math.PI * 2;
+                    this.speed = (2 + Math.random() * 3) * (1 - freq/200);
+                    this.hue = hue;
+                    this.size = 2 + (freq/100 * 3);
+                    this.life = 1;
+                    this.freq = freq;
+                    this.velocity = {
+                        x: Math.cos(this.angle) * this.speed,
+                        y: Math.sin(this.angle) * this.speed
+                    };
+                    this.rotation = Math.random() * Math.PI * 2;
+                    this.rotationSpeed = (Math.random() - 0.5) * 0.1;
+                }
+    
+                update() {
+                    if (particleMode === 'vortex') {
+                        this.angle += this.speed * 0.1;
+                        this.radius = 100 + Math.sin(Date.now() * 0.001 * this.freq) * 50;
+                        this.x = canvas.width/2 + Math.cos(this.angle) * this.radius;
+                        this.y = canvas.height/2 + Math.sin(this.angle) * this.radius;
+                    } else {
+                        if (gravityEnabled) {
+                            this.velocity.y += 0.1; // Gravity effect
+                        }
+                        this.x += this.velocity.x;
+                        this.y += this.velocity.y;
+                    }
+    
+                    // Particle collisions
+                    if (particleCollisionsEnabled) {
+                        particles.forEach(p => {
+                            if (p !== this) {
+                                const dx = this.x - p.x;
+                                const dy = this.y - p.y;
+                                const dist = Math.sqrt(dx * dx + dy * dy);
+                                if (dist < this.size + p.size) {
+                                    const angle = Math.atan2(dy, dx);
+                                    const force = 0.5;
+                                    this.velocity.x += Math.cos(angle) * force;
+                                    this.velocity.y += Math.sin(angle) * force;
+                                }
+                            }
+                        });
+                    }
+    
+                    // Particle attraction
+                    if (particleAttractionEnabled) {
+                        const centerX = canvas.width/2;
+                        const centerY = canvas.height/2;
+                        const dx = centerX - this.x;
+                        const dy = centerY - this.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        const force = 0.01;
+                        this.velocity.x += (dx / dist) * force;
+                        this.velocity.y += (dy / dist) * force;
+                    }
+    
+                    this.life *= 0.99;
+                    return this.life > 0.01;
+                }
+    
+                draw() {
+                    ctx.fillStyle = `hsla(${this.hue}, 70%, 50%, ${this.life})`;
+                    ctx.strokeStyle = `hsla(${this.hue}, 70%, 30%, ${this.life})`;
+                    ctx.lineWidth = 2;
+    
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation);
+    
+                    switch(particleShapes) {
+                        case 'circles':
+                            ctx.beginPath();
+                            ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+                            ctx.fill();
+                            break;
+                        case 'triangles':
+                            ctx.beginPath();
+                            ctx.moveTo(0, -this.size);
+                            ctx.lineTo(this.size, this.size);
+                            ctx.lineTo(-this.size, this.size);
+                            ctx.closePath();
+                            ctx.fill();
+                            break;
+                        case 'squares':
+                            ctx.fillRect(-this.size, -this.size, this.size*2, this.size*2);
+                            break;
+                        case 'stars':
+                            ctx.beginPath();
+                            for (let i = 0; i < 5; i++) {
+                                ctx.lineTo(
+                                    Math.cos((i * 0.8) * Math.PI) * this.size,
+                                    Math.sin((i * 0.8) * Math.PI) * this.size
+                                );
+                            }
+                            ctx.closePath();
+                            ctx.fill();
+                            break;
+                    }
+    
+                    ctx.restore();
+                }
+            }
+    
+            // Initialize
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+    
+            // Audio setup
+            function setupAudio() {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    // Cathedral impulse response
+                    fetch('https://cdn.rawgit.com/hoch/impulse-responses/master/Altiverb%20IR%20Files/Cathedrals/Chartres%20Cathedral.ogg')
+                        .then(response => response.arrayBuffer())
+                        .then(buffer => audioContext.decodeAudioData(buffer))
+                        .then(irBuffer => {
+                            const reverb = audioContext.createConvolver();
+                            reverb.buffer = irBuffer;
+                            reverb.connect(audioContext.destination);
+                        });
+                }
+            }
+    
+            function playNote(note) {
+                setupAudio();
+                const freq = NOTE_FREQS[note];
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                const pan = audioContext.createStereoPanner();
+                
+                // Extended harmonic modes
+                if (harmonicMode === 'custom') {
+                    const real = new Float32Array([1, 0.8, 0.6, 0.4, 0.2]);
+                    const imag = new Float32Array(real.length);
+                    const wave = audioContext.createPeriodicWave(real, imag);
+                    osc.setPeriodicWave(wave);
+                } else {
+                    osc.type = harmonicMode;
+                }
+                
+                osc.frequency.setValueAtTime(freq, audioContext.currentTime);
+                
+                gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 3);
+    
+                // Effects chain
+                const delay = audioContext.createDelay();
+                delay.delayTime.value = 0.4;
+                const feedback = audioContext.createGain();
+                feedback.gain.value = echoEnabled ? 0.3 : 0;
+    
+                const chorus = audioContext.createDelay();
+                chorus.delayTime.value = 0.01 + Math.random() * 0.02;
+                const chorusGain = audioContext.createGain();
+                chorusGain.gain.value = chorusEnabled ? 0.5 : 0;
+    
+                osc.connect(gain);
+                if (chorusEnabled) {
+                    gain.connect(chorus).connect(chorusGain).connect(pan);
+                    gain.connect(pan);
+                } else {
+                    gain.connect(pan);
+                }
+                pan.connect(delay).connect(audioContext.destination);
+                delay.connect(feedback).connect(delay);
+    
+                osc.start();
+                osc.stop(audioContext.currentTime + 3);
+    
+                // Create particles
+                const hue = mapRange(freq, 65, 123, 200, 400);
+                for (let i = 0; i < 20; i++) {
+                    particles.push(new Particle(freq, hue));
+                }
+            }
+    
+            // New Features
+            function toggleGravity() {
+                gravityEnabled = !gravityEnabled;
+                document.querySelectorAll('.controls button')[5].textContent = `Gravity: ${gravityEnabled ? 'On' : 'Off'}`;
+            }
+    
+            function toggleTrails() {
+                trailsEnabled = !trailsEnabled;
+                document.querySelectorAll('.controls button')[6].textContent = `Trails: ${trailsEnabled ? 'On' : 'Off'}`;
+            }
+    
+            function toggleParticleShapes() {
+                const shapes = ['circles', 'triangles', 'squares', 'stars'];
+                particleShapes = shapes[(shapes.indexOf(particleShapes) + 1) % shapes.length];
+                document.querySelectorAll('.controls button')[7].textContent = `Shapes: ${particleShapes}`;
+            }
+    
+            function toggleFrequencyResponse() {
+                frequencyResponseEnabled = !frequencyResponseEnabled;
+                document.querySelectorAll('.controls button')[8].textContent = `Freq Response: ${frequencyResponseEnabled ? 'On' : 'Off'}`;
+            }
+    
+            function toggleParticleCollisions() {
+                particleCollisionsEnabled = !particleCollisionsEnabled;
+                document.querySelectorAll('.controls button')[9].textContent = `Collisions: ${particleCollisionsEnabled ? 'On' : 'Off'}`;
+            }
+    
+            function toggleParticleAttraction() {
+                particleAttractionEnabled = !particleAttractionEnabled;
+                document.querySelectorAll('.controls button')[10].textContent = `Attraction: ${particleAttractionEnabled ? 'On' : 'Off'}`;
+            }
+    
+            function changeHarmonicMode() {
+                const modes = ['sine', 'square', 'sawtooth', 'triangle', 'custom'];
+                harmonicMode = modes[(modes.indexOf(harmonicMode) + 1) % modes.length];
+                document.querySelector('.controls button').textContent = `Harmonic: ${harmonicMode}`;
+            }
+    
+            function toggleParticleMode() {
+                particleMode = particleMode === 'vortex' ? 'free' : 'vortex';
+                document.querySelectorAll('.controls button')[1].textContent = `Particles: ${particleMode === 'vortex' ? 'Vortex' : 'Free'}`;
+            }
+    
+            function clearAll() {
+                particles = [];
+                if (audioContext) {
+                    audioContext.close();
+                    audioContext = null;
+                }
+                document.querySelectorAll('.keyboard button').forEach(btn => btn.classList.remove('active'));
+            }
+    
+            // Animation
+            function animate() {
+                if (visualizerEnabled) {
+                    if (!trailsEnabled) {
+                        ctx.fillStyle = 'rgba(10, 6, 9, 0.1)';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    }
+    
+                    // Update and draw particles
+                    particles = particles.filter(p => p.update());
+                    particles.forEach(p => p.draw());
+    
+                    // Draw frequency response
+                    if (frequencyResponseEnabled) {
+                        const centerX = canvas.width/2;
+                        const centerY = canvas.height/2;
+                        ctx.strokeStyle = 'rgba(90, 30, 30, 0.3)';
+                        ctx.beginPath();
+                        ctx.arc(centerX, centerY, 100, 0, Math.PI * 2);
+                        ctx.stroke();
+                    }
+                }
+    
+                requestAnimationFrame(animate);
+            }
+            animate();
+    
+            function mapRange(value, low1, high1, low2, high2) {
+                return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+            }
+        </script>
+    </body>
+    </html>
