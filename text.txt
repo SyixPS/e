@@ -1,78 +1,89 @@
-Here's a structured and organized review of the key concepts for your test, optimized for clarity and retention:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Apple-Style</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="loader-content">
+            <h2 class="animated-text">Creative Developer</h2>
+            <p class="subtext">Click to Explore</p>
+        </div>
+    </div>
 
----
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
 
-### **1. Heredity vs. Environment**
-- **Heredity**: Traits inherited via genes (e.g., eye color, height).
-- **Environment**: Traits influenced by surroundings (e.g., language, skills).
-- **Interaction**: Some traits (e.g., height) depend on both genetics and environment (nutrition).
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="nav-brand">Portfolio</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#projects">Work</a></li>
+            <li><a href="#skills">Skills</a></li>
+        </ul>
+    </nav>
 
-### **2. Cells and Chromosomes**
-- **Somatic Cells**: 46 chromosomes (23 pairs).
-- **Gametes**: 23 chromosomes (haploid; 23 from each parent).
-- **DNA & Genes**: Chromosomes contain DNA; genes are DNA segments controlling traits.
-- **Sex Determination**: XX (female), XY (male).
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title animated-text">Innovative<br>Digital Solutions</h1>
+            <p class="hero-description">Creating experiences that matter</p>
+            <div class="scroll-indicator"></div>
+        </div>
+        <div class="floating-mockup"></div>
+    </section>
 
-### **3. DNA and Mutations**
-- **Structure**: Nitrogen bases (A, T, C, G) in sequence.
-- **Mutations**: Changes in DNA (e.g., deletion, substitution).
-  - **Causes**: Radiation, replication errors.
-  - **Effects**: Harmful (cancer), neutral, or beneficial (survival advantage).
-  - **Inheritance**: Only if mutation occurs in gametes.
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="section-container">
+            <h2 class="section-title animated-text">Featured Work</h2>
+            <div class="project-grid"></div>
+        </div>
+    </section>
 
-### **4. Cell Division**
-- **Mitosis**: Produces 2 identical diploid cells for growth/repair.
-- **Meiosis**: Produces 4 haploid gametes with genetic diversity (crossing over).
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="section-container">
+            <h2 class="section-title animated-text">Technical Expertise</h2>
+            <div class="skill-grid"></div>
+        </div>
+    </section>
 
-### **5. Twins**
-- **Identical (Monozygotic)**: One zygote splits; same DNA/sex.
-- **Fraternal (Dizygotic)**: Two eggs fertilized; genetically like siblings.
+    <!-- Project Details Modal -->
+    <div id="project-modal" class="modal project-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 class="modal-title"></h2>
+            <div class="project-details">
+                <p class="modal-tech"></p>
+                <p class="modal-description"></p>
+            </div>
+        </div>
+    </div>
 
-### **6. Inheritance Patterns**
-- **Dominant (B)** vs. **Recessive (b)**: Brown eyes (B) dominant over blue (b).
-- **Punnett Squares**: Predict offspring genotypes (e.g., Bb × Bb → 25% bb).
+    <!-- Skill Details Modal -->
+    <div id="skill-modal" class="modal skill-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Skill Details</h2>
+            <div class="skill-progress">
+                <div class="progress-bar">
+                    <div id="progress-level" class="progress-level"></div>
+                </div>
+                <p id="progress-text"> <span id="skill-level"></span></p>
+            </div>
+            <p id="hours-spent">Hours Spent:</p>
+            <span id="skill-hours">0</span>
+        </div>
+    </div>
 
-### **7. Biotechnology & GMOs**
-- **Selective Breeding**: Choosing traits over generations (e.g., disease-resistant crops).
-- **Genetic Engineering**: Direct DNA modification (e.g., CRISPR).
-  - **GMO Benefits**: Pest resistance, enhanced nutrition (golden rice).
-  - **Risks**: Ecosystem disruption, reduced biodiversity.
-
-### **8. Evolution Timeline**
-1. 4.6B yrs: Earth forms.
-2. 4B yrs: First life (bacteria).
-3. 3B yrs: Cyanobacteria (oxygen via photosynthesis).
-4. 2B yrs: Eukaryotes (nucleus).
-5. 1B yrs: Multicellular organisms.
-6. 500M yrs: Vertebrates in oceans.
-7. 400M yrs: Land colonization (plants/animals).
-8. 200M yrs: Dinosaurs → 150M yrs: Birds evolve.
-9. Recent: Humans.
-
-### **9. Key Terms**
-- **Genetics**: Study of heredity.
-- **Gene Therapy**: Replacing faulty genes (e.g., cystic fibrosis).
-- **CRISPR**: Gene-editing tool.
-
----
-
-### **Test-Taking Tips**
-- **Process Focus**: Understand mitosis/meiosis, Punnett squares.
-- **Examples**: Use GMO pros/cons, mutation cases.
-- **Mnemonics**: 
-  - Bases: **A**pple **T**ree, **C**ar **G**arage (A-T, C-G).
-  - Mitosis Stages: **I**nterphase, **P**rophase, **M**etaphase, **A**naphase, **T**elophase (IPMAT).
-
-### **Self-Test Answers**
-1. Heredity = genes; environment = external influences.
-2. 23 chromosomes in gametes.
-3. Parents are heterozygous (Bb), passing recessive alleles (b).
-4. Four genetically diverse haploid cells.
-5. One fertilized egg splits into two embryos.
-6. Benefits: Drought-resistant crops. Risks: Gene flow to wild species.
-7. Bacteria → Eukaryotes → Land Plants → Dinosaurs.
-8. DNA change; inherited if in gametes.
-
----
-
-**Good luck!** Focus on clear explanations and examples. You’ve got this! 🌟
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
